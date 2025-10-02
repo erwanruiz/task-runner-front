@@ -1,0 +1,80 @@
+services:
+  setup:
+    image: alpine/git
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    command: sh -c "
+      apk add --no-cache bash &&
+      chmod +x setup.sh &&
+      ./setup.sh"
+    profiles:
+      - setup
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: calendar
+      POSTGRES_USER: calendar
+      POSTGRES_PASSWORD: calendar
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+
+  php:
+    build:
+      context: ./task-runner-back
+      dockerfile: Dockerfile
+    volumes:
+      - ./task-runner-back:/var/www
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      DB_CONNECTION: pgsql
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: calendar
+      DB_USERNAME: calendar
+      DB_PASSWORD: calendar
+    depends_on:
+      db:
+        condition: service_healthy
+
+
+  web:
+    build:
+      context: ./task-runner-front
+      dockerfile: Dockerfile
+      args:
+        USER_ID: ${USER_ID:-1000}
+        GROUP_ID: ${GROUP_ID:-1000}
+    environment:
+        NITRO_PORT: 3000
+    volumes:
+      - ./task-runner-front:/app
+      - /app/node_modules
+    depends_on:
+      - php
+
+
+  nginx:
+    image: nginx:1.27-alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./task-runner-back:/var/www:ro
+    depends_on:
+      - web
+      - php
+
+
+volumes:
+  pgdata:
