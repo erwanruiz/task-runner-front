@@ -38,8 +38,8 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT || 22 }}
         script: |
-          mkdir -p /var/www
-          rm -rf /var/www/*
+          mkdir -p /home/${{ secrets.USERNAME }}/www
+          chmod 755 /home/${{ secrets.USERNAME }}/www
 
     - name: Create deployment archive
       run: |
@@ -65,5 +65,7 @@ jobs:
         port: ${{ secrets.PORT || 22 }}
         script: |
           cd /tmp
-          tar -xzf deploy.tar.gz -C /var/www/
+          rm -rf /home/${{ secrets.USERNAME }}/www/*
+          tar -xzf deploy.tar.gz -C /home/${{ secrets.USERNAME }}/www/
           rm deploy.tar.gz
+          chmod -R 755 /home/${{ secrets.USERNAME }}/www
