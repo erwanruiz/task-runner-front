@@ -225,6 +225,5 @@ const changePassword = async () => {
 }
 
 definePageMeta({
-  middleware: 'auth'
 })
 </script>

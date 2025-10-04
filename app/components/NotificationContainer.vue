@@ -28,7 +28,6 @@
               <svg
                 v-if="notification.type === 'error'"
                 class="h-6 w-6 text-red-400"
-                fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
@@ -44,7 +43,6 @@
               <svg
                 v-else-if="notification.type === 'success'"
                 class="h-6 w-6 text-green-400"
-                fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
@@ -60,7 +58,6 @@
               <svg
                 v-else-if="notification.type === 'warning'"
                 class="h-6 w-6 text-yellow-400"
-                fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
@@ -76,7 +73,6 @@
               <svg
                 v-else
                 class="h-6 w-6 text-blue-400"
-                fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >

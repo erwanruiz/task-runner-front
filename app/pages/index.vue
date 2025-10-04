@@ -51,7 +51,5 @@
 const { user } = useAuth()
 const { t } = useI18n()
 
-definePageMeta({
-  middleware: 'auth'
-})
+// No need for individual middleware since we have global auth middleware
 </script>

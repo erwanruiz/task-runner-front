@@ -35,6 +35,5 @@
 const { t } = useI18n()
 
 definePageMeta({
-  middleware: 'auth'
 })
 </script>

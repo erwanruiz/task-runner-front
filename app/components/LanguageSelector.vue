@@ -11,7 +11,6 @@
       <svg
         class="w-4 h-4 transition-transform duration-200"
         :class="{ 'rotate-180': isOpen }"
-        fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
       >
