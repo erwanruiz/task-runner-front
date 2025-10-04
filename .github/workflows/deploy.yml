@@ -13,40 +13,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Generate static site
+      run: npm run generate
+      env:
+        NUXT_PUBLIC_API_BASE: ${{ secrets.NUXT_PUBLIC_API_BASE }}
+
     - name: Deploy to server
-      uses: appleboy/ssh-action@v1.0.3
+      uses: appleboy/scp-action@v0.1.7
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT || 22 }}
-        script: |
-          # Create temporary deployment directory
-          TEMP_DIR=$(mktemp -d)
-          cd $TEMP_DIR
-
-          # Clone repository
-          git clone https://${{ secrets.TOKEN }}@github.com/${{ github.repository }}.git .
-
-          # Install Node.js if not present
-          if ! command -v node &> /dev/null; then
-            curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
-            apt-get update && apt-get install -y nodejs
-          fi
-
-          # Install dependencies and generate
-          npm ci
-          NUXT_PUBLIC_API_BASE="${{ secrets.NUXT_PUBLIC_API_BASE }}" npm run generate
-
-          # Clear existing files in /var/www/
-          rm -rf /var/www/*
-
-          # Copy only generated files to /var/www/
-          cp -r .output/public/* /var/www/
-
-          # Clean up temporary directory
-          rm -rf $TEMP_DIR
-
-          # Set correct permissions
-          chown -R www-data:www-data /var/www
-          chmod -R 755 /var/www
+        source: ".output/public/*"
+        target: "/var/www"
+        strip_components: 2
+        overwrite: true
+        rm: true
