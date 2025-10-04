@@ -10,27 +10,7 @@
             Hello {{ user?.name }}! {{ t('pages.home.subtitle') }}
           </p>
 
-          <UiCard class="max-w-md mx-auto">
-            <UiCardContent class="p-6">
-              <h3 class="text-lg font-semibold text-foreground mb-4">{{ t('profile.title') }}</h3>
-              <div class="space-y-3 text-left">
-                <div class="flex items-center justify-between">
-                  <span class="font-medium text-muted-foreground">{{ t('profile.name') }}</span>
-                  <span class="text-foreground">{{ user?.name }}</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="font-medium text-muted-foreground">{{ t('profile.email') }}</span>
-                  <span class="text-foreground">{{ user?.email }}</span>
-                </div>
-                <div v-if="user?.provider_name" class="flex items-center justify-between">
-                  <span class="font-medium text-muted-foreground">{{ t('profile.provider') }}</span>
-                  <span class="text-foreground capitalize">{{ user.provider_name }}</span>
-                </div>
-              </div>
-            </UiCardContent>
-          </UiCard>
-
-          <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
+          <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
             <UiCard class="cursor-pointer hover:bg-accent transition-colors" @click="$router.push('/tasks')">
               <UiCardContent class="p-6 text-center">
                 <svg class="w-8 h-8 mx-auto mb-3 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -48,6 +28,16 @@
                 </svg>
                 <h3 class="font-semibold text-foreground">{{ t('nav.calendar') }}</h3>
                 <p class="text-sm text-muted-foreground mt-1">{{ t('pages.calendar.title') }}</p>
+              </UiCardContent>
+            </UiCard>
+
+            <UiCard class="cursor-pointer hover:bg-accent transition-colors" @click="$router.push('/profile')">
+              <UiCardContent class="p-6 text-center">
+                <svg class="w-8 h-8 mx-auto mb-3 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <h3 class="font-semibold text-foreground">{{ t('profile.manageProfile') }}</h3>
+                <p class="text-sm text-muted-foreground mt-1">{{ t('profile.accountSettings') }}</p>
               </UiCardContent>
             </UiCard>
           </div>

@@ -37,7 +37,9 @@ export default {
     next: 'Next',
     previous: 'Previous',
     close: 'Close',
-    language: 'Language'
+    language: 'Language',
+    verified: 'Verified',
+    notVerified: 'Not verified'
   },
 
   // Profile
@@ -45,7 +47,23 @@ export default {
     title: 'Your Profile',
     name: 'Name:',
     email: 'Email:',
-    provider: 'Provider:'
+    provider: 'Provider:',
+    manageProfile: 'Manage Profile',
+    personalInfo: 'Personal Information',
+    accountSettings: 'Account Settings',
+    changePassword: 'Change Password',
+    currentPassword: 'Current Password',
+    newPassword: 'New Password',
+    confirmPassword: 'Confirm New Password',
+    updatePassword: 'Update Password',
+    passwordUpdated: 'Password updated successfully',
+    socialAccountNote: 'You are signed in with a social account. Password management is not available.',
+    enterCurrentPassword: 'Enter your current password',
+    enterNewPassword: 'Enter your new password',
+    confirmNewPassword: 'Confirm your new password',
+    passwordRequirements: 'Password must be at least 8 characters long',
+    updateProfile: 'Update Profile',
+    profileUpdated: 'Profile updated successfully'
   },
 
   // Pages

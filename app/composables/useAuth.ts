@@ -6,7 +6,8 @@ interface User {
   name: string
   email: string
   avatar_url?: string
-  provider_name?: string
+  provider?: string
+  email_verified_at?: string
 }
 
 interface AuthState {

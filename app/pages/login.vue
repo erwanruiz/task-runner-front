@@ -101,7 +101,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import type {ApiResponse} from "~/types";
 
 const { $api } = useNuxtApp()

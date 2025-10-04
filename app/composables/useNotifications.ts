@@ -1,5 +1,6 @@
 interface Notification {
   id: string
+  title?: string
   type: 'error' | 'success' | 'warning' | 'info'
   message: string
   timeout?: number

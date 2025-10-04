@@ -37,7 +37,9 @@ export default {
     next: 'Suivant',
     previous: 'Précédent',
     close: 'Fermer',
-    language: 'Langue'
+    language: 'Langue',
+    verified: 'Vérifié',
+    notVerified: 'Non vérifié'
   },
 
   // Profile
@@ -45,7 +47,23 @@ export default {
     title: 'Votre Profil',
     name: 'Nom :',
     email: 'Email :',
-    provider: 'Fournisseur :'
+    provider: 'Fournisseur :',
+    manageProfile: 'Gérer le Profil',
+    personalInfo: 'Informations Personnelles',
+    accountSettings: 'Paramètres du Compte',
+    changePassword: 'Changer le Mot de Passe',
+    currentPassword: 'Mot de Passe Actuel',
+    newPassword: 'Nouveau Mot de Passe',
+    confirmPassword: 'Confirmer le Nouveau Mot de Passe',
+    updatePassword: 'Mettre à Jour le Mot de Passe',
+    passwordUpdated: 'Mot de passe mis à jour avec succès',
+    socialAccountNote: 'Vous êtes connecté avec un compte social. La gestion du mot de passe n\'est pas disponible.',
+    enterCurrentPassword: 'Entrez votre mot de passe actuel',
+    enterNewPassword: 'Entrez votre nouveau mot de passe',
+    confirmNewPassword: 'Confirmez votre nouveau mot de passe',
+    passwordRequirements: 'Le mot de passe doit contenir au moins 8 caractères',
+    updateProfile: 'Mettre à Jour le Profil',
+    profileUpdated: 'Profil mis à jour avec succès'
   },
 
   // Pages

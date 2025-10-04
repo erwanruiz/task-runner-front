@@ -42,30 +42,62 @@
             <ThemeToggle />
 
             <!-- User Menu -->
-            <div v-if="isAuthenticated" class="flex items-center space-x-3">
-              <div class="flex items-center space-x-2">
-                <img
-                  v-if="user?.avatar_url"
-                  :src="user.avatar_url"
-                  :alt="user.name"
-                  class="h-8 w-8 rounded-full border border-border"
-                >
-                <div v-else class="h-8 w-8 rounded-full bg-muted flex items-center justify-center border border-border">
-                  <span class="text-sm font-medium text-muted-foreground">
-                    {{ user?.name?.charAt(0).toUpperCase() }}
-                  </span>
-                </div>
-                <span class="text-sm font-medium text-foreground hidden sm:block">{{ user?.name }}</span>
-              </div>
+            <div v-if="isAuthenticated">
+              <UiDropdown>
+                <template #trigger="{ isOpen }">
+                  <button class="flex items-center space-x-2 p-2 rounded-lg hover:bg-accent transition-colors">
+                    <img
+                      v-if="user?.avatar_url"
+                      :src="user.avatar_url"
+                      :alt="user.name"
+                      class="h-8 w-8 rounded-full border border-border"
+                    >
+                    <div v-else class="h-8 w-8 rounded-full bg-muted flex items-center justify-center border border-border">
+                      <span class="text-sm font-medium text-muted-foreground">
+                        {{ user?.name?.charAt(0).toUpperCase() }}
+                      </span>
+                    </div>
+                    <span class="text-sm font-medium text-foreground hidden sm:block">{{ user?.name }}</span>
+                    <svg
+                      class="w-4 h-4 transition-transform duration-200"
+                      :class="{ 'rotate-180': isOpen }"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                </template>
 
-              <UiButton
-                @click="logout"
-                variant="ghost"
-                size="sm"
-                class="text-muted-foreground hover:text-foreground"
-              >
-                {{ t('nav.logout') }}
-              </UiButton>
+                <template #content="{ close }">
+                  <div class="px-4 py-3 border-b border-border">
+                    <div class="text-sm font-medium text-foreground">{{ user?.name }}</div>
+                    <div class="text-sm text-muted-foreground">{{ user?.email }}</div>
+                  </div>
+
+                  <NuxtLink
+                    to="/profile"
+                    @click="close"
+                    class="flex items-center px-4 py-2 text-sm text-foreground hover:bg-muted transition-colors"
+                  >
+                    <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    {{ t('profile.manageProfile') }}
+                  </NuxtLink>
+
+                  <button
+                    @click="logout(); close()"
+                    class="flex items-center w-full px-4 py-2 text-sm text-foreground hover:bg-muted transition-colors"
+                  >
+                    <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                    {{ t('nav.logout') }}
+                  </button>
+                </template>
+              </UiDropdown>
             </div>
 
             <!-- Login Button for non-authenticated users -->
@@ -90,6 +122,8 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue'
+
 const { user, isAuthenticated, logout } = useAuth()
 const { initLocale, t } = useI18n()
 
