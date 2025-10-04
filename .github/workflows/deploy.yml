@@ -35,8 +35,6 @@ jobs:
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        key: ${{ secrets.PRIVATE_KEY }}
         port: ${{ secrets.PORT || 22 }}
         source: ".output/public/*"
         target: "/var/www/html"
@@ -48,8 +46,6 @@ jobs:
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        key: ${{ secrets.PRIVATE_KEY }}
         port: ${{ secrets.PORT || 22 }}
         script: |
           chown -R www-data:www-data /var/www/html
