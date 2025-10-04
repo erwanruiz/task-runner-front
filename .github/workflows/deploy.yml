@@ -41,6 +41,11 @@ jobs:
           mkdir -p /var/www
           rm -rf /var/www/*
 
+    - name: Create deployment archive
+      run: |
+        cd .output/public
+        tar -czf ../../deploy.tar.gz *
+
     - name: Deploy to server
       uses: appleboy/scp-action@v0.1.7
       with:
@@ -48,7 +53,17 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT || 22 }}
-        source: ".output/public/*"
-        target: "/var/www/"
-        strip_components: 2
-        overwrite: true
+        source: "deploy.tar.gz"
+        target: "/tmp/"
+
+    - name: Extract and move files
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT || 22 }}
+        script: |
+          cd /tmp
+          tar -xzf deploy.tar.gz -C /var/www/
+          rm deploy.tar.gz
