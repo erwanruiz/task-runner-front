@@ -30,8 +30,8 @@ jobs:
 
           # Install Node.js if not present
           if ! command -v node &> /dev/null; then
-            curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-            sudo apt-get install -y nodejs
+            curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+            apt-get update && apt-get install -y nodejs
           fi
 
           # Install dependencies and generate
@@ -39,14 +39,14 @@ jobs:
           NUXT_PUBLIC_API_BASE="${{ secrets.NUXT_PUBLIC_API_BASE }}" npm run generate
 
           # Clear existing files in /var/www/
-          sudo rm -rf /var/www/*
+          rm -rf /var/www/*
 
           # Copy only generated files to /var/www/
-          sudo cp -r .output/public/* /var/www/
+          cp -r .output/public/* /var/www/
 
           # Clean up temporary directory
           rm -rf $TEMP_DIR
 
           # Set correct permissions
-          sudo chown -R www-data:www-data /var/www
-          sudo chmod -R 755 /var/www
+          chown -R www-data:www-data /var/www
+          chmod -R 755 /var/www
